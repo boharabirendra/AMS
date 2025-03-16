@@ -1,6 +1,6 @@
-import { KnexService } from './knex.service';
+import { KnexService } from "./knex.service";
 
-import { KNEX_CONNECTION } from 'src/constants/knex';
+import { KNEX_CONNECTION } from "src/constants/knex";
 
 export const knexConnectionFactory = {
   provide: KNEX_CONNECTION,

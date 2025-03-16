@@ -1,7 +1,7 @@
-import { Global, Module } from '@nestjs/common';
-import { knexConnectionFactory } from './knex.factory';
-import { ConfigModule } from 'src/config/config.module';
-import { KnexService } from './knex.service';
+import { Global, Module } from "@nestjs/common";
+import { knexConnectionFactory } from "./knex.factory";
+import { ConfigModule } from "src/config/config.module";
+import { KnexService } from "./knex.service";
 
 @Global()
 @Module({

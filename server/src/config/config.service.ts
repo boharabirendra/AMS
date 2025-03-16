@@ -1,18 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService as NestConfigService } from '@nestjs/config';
+import { Injectable } from "@nestjs/common";
+import { ConfigService as NestConfigService } from "@nestjs/config";
 
-import knexStringcase from 'knex-stringcase';
-import { KnexConfig } from 'src/knex/knex.interface';
-import { DatabaseConfig } from './interface/config.interface';
+import knexStringcase from "knex-stringcase";
+import { KnexConfig } from "src/knex/knex.interface";
+import { DatabaseConfig } from "./interface/config.interface";
 
 @Injectable()
 export class ConfigService {
   constructor(private readonly configs: NestConfigService) {}
 
   getDatabaseConfig(): DatabaseConfig {
-    const config = this.configs.get<DatabaseConfig>('database');
+    const config = this.configs.get<DatabaseConfig>("database");
     if (!config) {
-      throw new Error('Database configuration is missing');
+      throw new Error("Database configuration is missing");
     }
     return config;
   }

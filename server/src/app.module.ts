@@ -1,16 +1,41 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from "@nestjs/common";
 
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
+import { AppService } from "./app.service";
+import { AppController } from "./app.controller";
 
-import { SongModule } from './modules/song/song.module';
-import { UsersModule } from './modules/users/users.module';
-import { ArtistModule } from './modules/artist/artist.module';
-import { ConfigModule } from './config/config.module';
+import { KnexModule } from "./knex/knex.module";
+import { ConfigModule } from "./config/config.module";
+import { SongModule } from "./modules/song/song.module";
+import { UsersModule } from "./modules/users/users.module";
+import { MenusModule } from "./modules/menus/menus.module";
+import { ArtistModule } from "./modules/artist/artist.module";
+import { AuthMiddleware } from "./middlewares/auth.middleware";
 
 @Module({
-  imports: [ConfigModule, UsersModule, ArtistModule, SongModule],
+  imports: [
+    ConfigModule,
+    KnexModule,
+    UsersModule,
+    ArtistModule,
+    SongModule,
+    MenusModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude(
+        { path: "users", method: RequestMethod.POST },
+        { path: "users/login", method: RequestMethod.POST }
+      )
+      .forRoutes("*");
+  }
+}

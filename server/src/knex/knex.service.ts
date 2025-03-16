@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from "@nestjs/common";
 
-import KnexInitiator, { Knex } from 'knex';
-import { KnexConfig } from './knex.interface';
-import { ConfigService } from 'src/config/config.service';
+import KnexInitiator, { Knex } from "knex";
+import { KnexConfig } from "./knex.interface";
+import { ConfigService } from "src/config/config.service";
 
 @Injectable()
 export class KnexService {
@@ -11,7 +11,7 @@ export class KnexService {
   private _knexOptions: KnexConfig;
 
   constructor(private readonly configService: ConfigService) {
-    this.logger = new Logger('KnexService');
+    this.logger = new Logger("KnexService");
 
     this._knexOptions = configService.getKnexConfig();
   }
