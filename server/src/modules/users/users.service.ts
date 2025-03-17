@@ -11,9 +11,8 @@ import { compare } from "bcryptjs";
 import { ConfigService } from "@nestjs/config";
 
 import { User } from "./model/user.model";
-import { ADMIN_ROLES, USER_TYPES } from "src/constants/role";
-import { hashPassword } from "src/utils/password.utils";
 import { MenusService } from "../menus/menus.service";
+import { hashPassword } from "src/utils/password.utils";
 import { CreateUserDto, LoginDto } from "./dto/create.user.dto";
 
 @Injectable()
@@ -120,14 +119,9 @@ export class UsersService {
   }
 
   /**Get all users */
-  async getAll(user: CreateUserDto) {
-    const { role } = user;
-
+  async getAll() {
     const users = await this.user.getAll();
-
     return {
-      permissions: this.menusService.getPermissions(role),
-      menus: this.menusService.calculateMenus(role),
       users: users.map(({ password, ...rest }) => rest),
     };
   }

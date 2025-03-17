@@ -1,12 +1,8 @@
 import { Injectable } from "@nestjs/common";
 
 import { MENUS } from "src/constants/menu";
-import {
-  ADMIN_ROLES,
-  ARTIST_ROLES,
-  MANAGER_ROLES,
-  USER_TYPES,
-} from "src/constants/role";
+import { ADMIN_ROLES, ARTIST_ROLES, MANAGER_ROLES } from "src/constants/role";
+import { USER_TYPES } from "../roles/roles.enum";
 
 @Injectable()
 export class MenusService {

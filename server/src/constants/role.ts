@@ -1,9 +1,3 @@
-export const USER_TYPES = {
-  ADMIN: "ADMIN",
-  MANAGER: "MANAGER",
-  ARTIST: "ARTIST",
-};
-
 export const ROLES = {
   USER: {
     CREATE: "user.create",
