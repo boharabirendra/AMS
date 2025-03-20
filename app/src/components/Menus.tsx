@@ -1,3 +1,5 @@
+import Button from "./Ui/Button";
+
 export interface MenusProps {
   menus: string[] | undefined;
 }
@@ -8,9 +10,7 @@ export default function Menus({ menus }: MenusProps) {
       <ul className="flex gap-2 items-center">
         {menus?.map((menu, index) => (
           <li key={index}>
-            <button className="py-1 px-3 font-bold rounded-4xl text-blue-500 bg-gray-200 cursor-pointer">
-              {menu}
-            </button>
+            <Button isActive={false}>{menu}</Button>
           </li>
         ))}
       </ul>

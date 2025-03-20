@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../store/user/usersApiSlice";
+import { getErrorMessage } from "../utils/GetErrorMessage";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const LoginForm = () => {
       await login({ email, password }).unwrap();
       navigate("/dashboard");
     } catch (err) {
-      console.error("Login failed:", err?.data?.message);
+      console.error("Login failed:", getErrorMessage(err));
     }
   };
 
@@ -75,7 +76,7 @@ const LoginForm = () => {
 
             {isError && (
               <div className="text-red-600 text-sm mt-2">
-                {error?.data?.message || "Login failed. Please try again."}
+                {getErrorMessage(error) || "Login failed. Please try again."}
               </div>
             )}
 
@@ -95,15 +96,6 @@ const LoginForm = () => {
           </form>
 
           <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or</span>
-              </div>
-            </div>
-
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{" "}

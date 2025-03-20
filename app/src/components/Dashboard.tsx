@@ -1,15 +1,16 @@
 import { useNavigate } from "react-router-dom";
 
-import Menus, { MenuSkeleton } from "./Menus";
-import UserTable from "./Users";
+import UsersDetails from "./UsersDetails";
+import { MenuSkeleton } from "./Menus";
 import { useLogoutMutation } from "../store/user/usersApiSlice";
 import { useGetMenusQuery } from "../store/permissions/userPermissionApiSlice";
+import { Tabs } from "./Tabs";
+import Panel from "./Ui/Panel";
 
 const Dashboard = () => {
   const [logout] = useLogoutMutation();
 
   const { data: menusOptions, isLoading } = useGetMenusQuery();
-  console.log(menusOptions);
 
   const navigate = useNavigate();
 
@@ -51,16 +52,19 @@ const Dashboard = () => {
         {isLoading ? (
           <MenuSkeleton />
         ) : (
-          <Menus menus={menusOptions && menusOptions.menus} />
+          <Tabs>
+            {menusOptions?.menus &&
+              menusOptions.menus.map((menu, index) => (
+                <Panel key={index} panelName={menu}>
+                  <div className="">
+                    <div className="rounded-xl p-6 shadow-xl">
+                      <UsersDetails />
+                    </div>
+                  </div>
+                </Panel>
+              ))}
+          </Tabs>
         )}
-      </div>
-
-      {/* Content Area */}
-      <div className="p-6">
-        <div className="rounded-xl p-6 shadow-xl">
-          <h2 className="text-2xl font-bold mb-6">Users</h2>
-          <UserTable />
-        </div>
       </div>
     </div>
   );
