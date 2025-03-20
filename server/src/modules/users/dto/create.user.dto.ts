@@ -5,7 +5,6 @@ import {
   IsEmail,
   IsString,
   MaxLength,
-  MinLength,
   IsNotEmpty,
   IsDateString,
   IsOptional,
@@ -73,4 +72,14 @@ export class CreateUserDto {
 export class LoginDto extends PickType(CreateUserDto, [
   "email",
   "password",
+] as const) {}
+
+export class UserUpdateDto extends PickType(CreateUserDto, [
+  "firstName",
+  "lastName",
+  "address",
+  "phone",
+  "dob",
+  "gender",
+  "role",
 ] as const) {}

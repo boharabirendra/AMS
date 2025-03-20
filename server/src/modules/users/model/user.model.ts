@@ -1,5 +1,5 @@
 import BaseModel from "src/models/BaseModel";
-import { CreateUserDto } from "../dto/create.user.dto";
+import { CreateUserDto, UserUpdateDto } from "../dto/create.user.dto";
 
 export class User extends BaseModel {
   private readonly TABLE_NAME = "user";
@@ -10,7 +10,7 @@ export class User extends BaseModel {
     });
   }
 
-  updateById(updateBody: CreateUserDto, id: number) {
+  updateById(updateBody: UserUpdateDto, id: number) {
     return this.query
       .table(this.TABLE_NAME)
       .update({

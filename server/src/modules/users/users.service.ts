@@ -13,7 +13,7 @@ import { ConfigService } from "@nestjs/config";
 import { User } from "./model/user.model";
 import { MenusService } from "../menus/menus.service";
 import { hashPassword } from "src/utils/password.utils";
-import { CreateUserDto, LoginDto } from "./dto/create.user.dto";
+import { CreateUserDto, LoginDto, UserUpdateDto } from "./dto/create.user.dto";
 
 @Injectable()
 export class UsersService {
@@ -38,39 +38,44 @@ export class UsersService {
   }
 
   /**Update user by id */
-  async updateById(updateBody: CreateUserDto, id: number) {
-    const user = (await this.findById(id)) as CreateUserDto;
+  async updateById(updateBody: UserUpdateDto, id: number) {
+    try {
+      const user = (await this.findById(id)) as UserUpdateDto;
 
-    if (!user) {
-      throw new NotFoundException(`User with ${id} does not exists`);
+      if (!user) {
+        throw new NotFoundException(`User with ${id} does not exists`);
+      }
+
+      const updateCount = await this.user.updateById(updateBody, id);
+
+      if (updateCount === 0) {
+        throw new InternalServerErrorException(`Updation Failed`);
+      }
+
+      return `User with ${id} updated.`;
+    } catch (error) {
+      throw new InternalServerErrorException(`Updation failed`);
     }
-
-    const hashedPassword = await hashPassword(updateBody.password);
-    updateBody.password = hashedPassword;
-
-    const updateCount = await this.user.updateById(updateBody, id);
-
-    if (updateCount === 0) {
-      throw new InternalServerErrorException(`Updation Failed`);
-    }
-
-    return `User with ${id} updated.`;
   }
 
   /** Delete user by id */
   async deleteById(id: number) {
-    const user = (await this.findById(id)) as CreateUserDto;
+    try {
+      const user = (await this.findById(id)) as CreateUserDto;
 
-    if (!user) {
-      throw new NotFoundException(`User with ${id} does not exists`);
+      if (!user) {
+        throw new NotFoundException(`User with ${id} does not exists`);
+      }
+
+      const deletedCount = await this.user.deleteById(id);
+      if (deletedCount === 0) {
+        throw new InternalServerErrorException(`Deletion Failed`);
+      }
+
+      return `User with ${id} deleted.`;
+    } catch (error) {
+      throw new InternalServerErrorException("Deletion failed");
     }
-
-    const deletedCount = await this.user.deleteById(id);
-    if (deletedCount === 0) {
-      throw new InternalServerErrorException(`Deletion Failed`);
-    }
-
-    return `User with ${id} deleted.`;
   }
 
   /**User login */
